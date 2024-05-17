@@ -10,13 +10,27 @@
                 <p class="text-white-50 mb-5">Please enter your login and password!</p>
 
                 <div data-mdb-input-init class="form-outline form-white mb-4">
-                  <input type="email" id="typeEmailX" class="form-control form-control-lg" />
+                  <input
+                    type="email"
+                    id="typeEmailX"
+                    class="form-control form-control-lg"
+                    v-model="email"
+                    @blur="validateEmail"
+                  />
                   <label class="form-label" for="typeEmailX">Email</label>
+                  <span class="text-danger">{{ emailError }}</span>
                 </div>
 
                 <div data-mdb-input-init class="form-outline form-white mb-4">
-                  <input type="password" id="typePasswordX" class="form-control form-control-lg" />
+                  <input
+                    type="password"
+                    id="typePasswordX"
+                    class="form-control form-control-lg"
+                    v-model="password"
+                    @blur="validatePassword"
+                  />
                   <label class="form-label" for="typePasswordX">Password</label>
+                  <span class="text-danger">{{ passwordError }}</span>
                 </div>
 
                 <p class="small mb-5 pb-lg-2">
@@ -28,6 +42,7 @@
                   data-mdb-ripple-init
                   class="btn btn-outline-light btn-lg px-5"
                   type="submit"
+                  @click="login"
                 >
                   Login
                 </button>
@@ -50,17 +65,52 @@
       </div>
     </div>
   </section>
+  <div style="text-align: center;">
+  <button 
+    class="btn btn-success btn-lg px-5" 
+    @click="logout"
+    style="padding: 10px 20px; font-size: 16px;">
+    Logout
+  </button>
+</div>
+
+
 </template>
 
-<style scoped>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
+<script setup>
+import { ref } from 'vue'
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { useRouter } from 'vue-router'
+
+const email = ref('')
+const password = ref('')
+const auth = getAuth()
+const router = useRouter()
+
+async function login() {
+  try {
+    await signInWithEmailAndPassword(auth, email.value, password.value)
+    localStorage.setItem("isLoggedIn", true)
+    localStorage.setItem("email", email.value)
+    localStorage.setItem("auth",auth)
+    router.push('/')
+  } catch (error) {
+    console.error('Error logging in:', error.message)
+    alert('Login failed. Please check your email and password.')
   }
 }
-.form-signin {
-  margin-top: 0px;
+
+async function logout() {
+  try {
+    await signOut(auth)
+    router.push('/') // Redirecionar para a página de login após logout
+  } catch (error) {
+    console.error('Error logging out:', error.message)
+    alert('Logout failed. Please try again.')
+  }
 }
+</script>
+
+<style scoped>
+/* Your scoped styles here */
 </style>

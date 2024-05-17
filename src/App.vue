@@ -15,6 +15,7 @@ import { RouterLink, RouterView } from 'vue-router'
             height="50"
           />
         </RouterLink>
+        <RouterLink to="/search" class="btn btn-success">Search Artist</RouterLink>
         <form class="d-flex">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
           <RouterLink to="/login" class="btn btn-outline-success mx-2">Login</RouterLink>

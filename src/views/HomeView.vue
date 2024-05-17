@@ -1,4 +1,17 @@
-<script setup></script>
+<script setup>
+import spotifyApi from '@/api/spotfy'
+console.log(spotifyApi)
+
+// Get Elvis' albums
+spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE').then(
+  function (data) {
+    console.log('Artist albums', data.body)
+  },
+  function (err) {
+    console.error(err)
+  }
+)
+</script>
 
 <template>
   <h1 class="mb-0" style="color: #1db954">Músicas Novas</h1>
@@ -71,7 +84,7 @@
       </div>
     </div>
   </div>
-  <h1 class="mb-0" style="color: #1db954">Músicas mais pesquisadas</h1>
+  
   <hr class="mb-5 mt-0" />
   <div class="container">
     <div class="container">

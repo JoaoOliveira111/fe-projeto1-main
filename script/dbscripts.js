@@ -66,3 +66,4 @@ export async function getSpecificDocument(documentId) {
         console.error('Erro ao recuperar o documento: ', erro);
     }
 }
+
