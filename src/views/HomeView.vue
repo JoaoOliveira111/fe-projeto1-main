@@ -1,6 +1,29 @@
 <script setup>
-import spotifyApi from '@/api/spotfy'
+import spotifyApi from '@/api/spotify'
 console.log(spotifyApi)
+if(!("spotify_access_token" in localStorage)) {
+    console.log('No access token, redirecting to login')
+
+     window.open(
+       'http://localhost:8000/credentials',
+       '_blank'
+     ).focus();
+
+  fetch('http://localhost:8000/login').then(
+    response => response.json()
+  ).then(
+    data => {
+      const access_token = String(data.access_token)
+      const refresh_token = String(data.refresh_token)
+      localStorage.setItem('spotify_access_token', access_token)
+      localStorage.setItem('spotify_refresh_token', refresh_token)
+    }
+  )
+}
+
+
+spotifyApi.setAccessToken(localStorage.getItem('spotify_access_token'))
+spotifyApi.setRefreshToken(localStorage.getItem('spotify_refresh_token')) 
 
 // Get Elvis' albums
 spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE').then(

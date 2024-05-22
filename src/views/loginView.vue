@@ -65,49 +65,53 @@
       </div>
     </div>
   </section>
-  <div style="text-align: center;">
-  <button 
-    class="btn btn-success btn-lg px-5" 
-    @click="logout"
-    style="padding: 10px 20px; font-size: 16px;">
-    Logout
-  </button>
-</div>
-
-
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { getAuth, signOut } from 'firebase/auth'
 import { useRouter } from 'vue-router'
+import { getDocs, collection, setDoc, doc } from 'firebase/firestore'
+import db from '../../firebase/init'
+
+
 
 const email = ref('')
 const password = ref('')
 const auth = getAuth()
 const router = useRouter()
+if ("isLoggedIn" in localStorage) {
+  router.push('/')
 
-async function login() {
-  try {
-    await signInWithEmailAndPassword(auth, email.value, password.value)
-    localStorage.setItem("isLoggedIn", true)
-    localStorage.setItem("email", email.value)
-    localStorage.setItem("auth",auth)
-    router.push('/')
-  } catch (error) {
-    console.error('Error logging in:', error.message)
-    alert('Login failed. Please check your email and password.')
-  }
 }
 
-async function logout() {
-  try {
-    await signOut(auth)
-    router.push('/') // Redirecionar para a página de login após logout
-  } catch (error) {
-    console.error('Error logging out:', error.message)
-    alert('Logout failed. Please try again.')
+
+
+async function validateLogin(email, password) {
+  const querySnapshot = await getDocs(collection(db, 'users'))
+
+  const data = querySnapshot.docs.map((doc) => doc.data())
+
+  for (let i = 0; i < data.length; i++) {
+    if (email == data[i].email && password == data[i].password) {
+      console.log('Logged in')
+      return true
+    }
   }
+  console.log('Not logged in')
+  return false
+}
+
+async function login() {
+  if (await validateLogin(email.value, password.value)) {
+    localStorage.setItem('isLoggedIn', true)
+    localStorage.setItem('email', email.value)
+    router.push('/') && window.location.reload()
+    
+    return
+  }
+  console.error('Error logging in: ')
+  alert('Login failed. Please check your email and password.')
 }
 </script>
 

@@ -3,6 +3,20 @@ import HomeView from '../views/HomeView.vue'
 import registerView from '../views/registerView.vue'
 import loginView from '../views/loginView.vue'
 import searchView from '../views/searchView.vue'
+import db from '../../firebase/init';
+
+
+
+
+
+
+
+
+// await setDoc(doc(db, "users", "alovelace"), {
+//   first: "Ada",
+//   last: "Lovelace",
+//   born: 1815
+// });  
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,8 +31,11 @@ const router = createRouter({
       component: registerView
     },
     {
-      path: '/search',
-      component: searchView
+      path: '/search/:searchterm',
+      component: searchView,
+      name: 'search',
+      props: route => ({ searchterm: route.query.searchterm }),
+      meta: { requiresAuth: true }
     },
     {
       path: '/login',

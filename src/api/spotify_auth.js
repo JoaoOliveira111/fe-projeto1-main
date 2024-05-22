@@ -16,6 +16,7 @@
 
 import SpotifyWebApi from 'spotify-web-api-node'
 import express from 'express'
+import cors from 'cors'
 
 const scopes = [
   'ugc-image-upload',
@@ -45,9 +46,26 @@ var spotifyApi = new SpotifyWebApi({
   redirectUri: 'http://localhost:8000/callback'
 })
 
+const corsOptions = {
+  origin: '*',
+  methods: [],
+  allowedHeaders: [],
+  exposedHeaders: [],
+  credentials: true
+}
+
 const app = express()
 
+app.use(cors())
+
 app.get('/login', (req, res) => {
+  res.json({
+    access_token: spotifyApi.getAccessToken(),
+    refresh_token: spotifyApi.getRefreshToken()
+  })
+})
+
+app.get('/credentials', (req, res) => {
   res.redirect(spotifyApi.createAuthorizeURL(scopes))
 })
 
@@ -99,3 +117,5 @@ app.get('/callback', (req, res) => {
 app.listen(8000, () =>
   console.log('HTTP Server up. Now go to http://localhost:8000/login in your browser.')
 )
+
+export default spotifyApi
