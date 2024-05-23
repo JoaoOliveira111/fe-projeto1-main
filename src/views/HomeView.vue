@@ -22,8 +22,8 @@ if(!("spotify_access_token" in localStorage)) {
 }
 
 
-spotifyApi.setAccessToken(localStorage.getItem('spotify_access_token'))
-spotifyApi.setRefreshToken(localStorage.getItem('spotify_refresh_token')) 
+//spotifyApi.setAccessToken(localStorage.getItem('spotify_access_token'))
+//spotifyApi.setRefreshToken(localStorage.getItem('spotify_refresh_token')) 
 
 // Get Elvis' albums
 spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE').then(
