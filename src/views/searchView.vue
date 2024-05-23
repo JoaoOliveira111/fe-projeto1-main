@@ -11,6 +11,7 @@
                     class="card-img-top"
                     :src="artist.images[0]?.url ?? 'https://icons.veryicon.com/png/o/miscellaneous/two-color-icon-library/user-286.png'"
                     alt="Card image cap"
+                    style="max-height: 200px; max-width: 100%; object-fit: cover;"
                   />
                   <div class="card-body">
                     <h3 class="card-title">{{ artist.name }}</h3>
