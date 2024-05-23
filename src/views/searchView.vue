@@ -61,7 +61,7 @@ function callapi() {
       localStorage.setItem('spotify_access_token', access_token)
       localStorage.setItem('spotify_refresh_token', refresh_token)
     }
-  ), 1000)
+  ), 2000)
 }
 
 
