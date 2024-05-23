@@ -52,7 +52,7 @@ function callapi() {
        '_blank'
      ).focus();
 
-  fetch('http://localhost:8000/login').then(
+  setTimeout(fetch('http://localhost:8000/login').then(
     response => response.json()
   ).then(
     data => {
@@ -61,12 +61,12 @@ function callapi() {
       localStorage.setItem('spotify_access_token', access_token)
       localStorage.setItem('spotify_refresh_token', refresh_token)
     }
-  )
+  ), 1000)
 }
 
 
-spotifyApi.setAccessToken(localStorage.getItem('spotify_access_token'))
-spotifyApi.setRefreshToken(localStorage.getItem('spotify_refresh_token')) 
+//spotifyApi.setAccessToken(localStorage.getItem('spotify_access_token'))
+//spotifyApi.setRefreshToken(localStorage.getItem('spotify_refresh_token')) 
 
 spotifyApi.searchArtists(searchTerm).then(
   function (data) {

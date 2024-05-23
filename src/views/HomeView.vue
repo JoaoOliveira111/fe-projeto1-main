@@ -9,7 +9,7 @@ if(!("spotify_access_token" in localStorage)) {
        '_blank'
      ).focus();
 
-  fetch('http://localhost:8000/login').then(
+  setTimeout(fetch('http://localhost:8000/login').then(
     response => response.json()
   ).then(
     data => {
@@ -18,7 +18,9 @@ if(!("spotify_access_token" in localStorage)) {
       localStorage.setItem('spotify_access_token', access_token)
       localStorage.setItem('spotify_refresh_token', refresh_token)
     }
-  )
+  ), 1000)
+
+  
 }
 
 
