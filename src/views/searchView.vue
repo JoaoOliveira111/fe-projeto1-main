@@ -60,8 +60,14 @@ function callapi() {
       const refresh_token = String(data.refresh_token)
       localStorage.setItem('spotify_access_token', access_token)
       localStorage.setItem('spotify_refresh_token', refresh_token)
+      spotifyApi.setAccessToken(access_token)
+      spotifyApi.setRefreshToken(refresh_token)
+      window.location.reload()
     }
   ), 2000)
+} else {
+  spotifyApi.setAccessToken(localStorage.getItem('spotify_access_token'))
+  spotifyApi.setRefreshToken(localStorage.getItem('spotify_refresh_token')) 
 }
 
 
